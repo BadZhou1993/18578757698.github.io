@@ -1,0 +1,1477 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>悟空健康管理有限公司 - 专业健康管理服务提供商</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- GSAP 动画库 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <!-- ScrollReveal -->
+    <script src="https://unpkg.com/scrollreveal@4.0.9/dist/scrollreveal.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+        
+        :root {
+            --primary-color: #00b4d8;
+            --secondary-color: #4ade80;
+            --accent-color: #0077b6;
+            --dark-color: #03045e;
+            --light-color: #f8f9fa;
+            --gray-color: #6c757d;
+        }
+        
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        }
+        
+        .text-gradient {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .service-card {
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .service-card:hover {
+            border-bottom: 3px solid var(--secondary-color);
+        }
+        
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        #hero-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        .dynamic-island {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .dynamic-island:hover {
+            transform: translateX(-50%) scale(1.05);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .team-member {
+            transition: all 0.3s ease;
+        }
+        
+        .team-member:hover .team-overlay {
+            opacity: 1;
+        }
+        
+        .team-overlay {
+            opacity: 0;
+            transition: all 0.3s ease;
+            background: linear-gradient(to top, rgba(0, 180, 216, 0.9), transparent);
+        }
+        
+        .testimonial-card {
+            transition: all 0.3s ease;
+        }
+        
+        .testimonial-card:hover {
+            transform: scale(1.02);
+        }
+        
+        .ai-tool-bg {
+            background: linear-gradient(135deg, #03045e, #0077b6);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        
+        .ai-input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 12px 16px;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .ai-input:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 2px rgba(74, 222, 128, 0.2);
+        }
+        
+        .ai-button {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            border-radius: 10px;
+            padding: 12px 24px;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .ai-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .result-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .risk-low {
+            color: #4ade80;
+        }
+        
+        .risk-medium {
+            color: #facc15;
+        }
+        
+        .risk-high {
+            color: #f87171;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 1s ease;
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--secondary-color);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+        
+        .mobile-menu {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+        
+        @media (max-width: 768px) {
+            .dynamic-island {
+                bottom: 20px;
+                padding: 10px 20px;
+            }
+        }
+        
+        /* 加载动画 */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        
+        .loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .loader-circle {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- 加载动画 -->
+    <div class="loader">
+        <div class="loader-circle"></div>
+    </div>
+
+    <!-- 导航栏 -->
+    <nav class="bg-white shadow-md fixed w-full z-50 transition-all duration-300" id="navbar">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <img src="https://p26-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/3e7eef4d30cf45c296f6a69482626264~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=202603152345227E90D6D6A835EBB6EE45&rrcfp=f06b921b&x-expires=1776181564&x-signature=SippHUKzuXmiHiaFC%2BH7TTC4P%2F4%3D" alt="悟空健康管理" class="h-12 mr-3">
+                    <span class="text-xl font-bold text-gray-800">悟空健康管理</span>
+                </div>
+                
+                <!-- 桌面导航 -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="nav-link text-gray-700 hover:text-blue-500 active">首页</a>
+                    <a href="#about" class="nav-link text-gray-700 hover:text-blue-500">关于我们</a>
+                    <a href="#services" class="nav-link text-gray-700 hover:text-blue-500">服务项目</a>
+                    <a href="#team" class="nav-link text-gray-700 hover:text-blue-500">专家团队</a>
+                    <a href="#cases" class="nav-link text-gray-700 hover:text-blue-500">客户案例</a>
+                    <a href="#ai-tool" class="nav-link text-gray-700 hover:text-blue-500">AI健康评估</a>
+                    <a href="#contact" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-full transition duration-300">联系我们</a>
+                </div>
+                
+                <!-- 移动端菜单按钮 -->
+                <div class="md:hidden">
+                    <button id="menu-toggle" class="text-gray-700 focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 移动端导航菜单 -->
+        <div id="mobile-menu" class="mobile-menu fixed top-0 left-0 h-full w-4/5 bg-white shadow-lg z-50 md:hidden">
+            <div class="p-5">
+                <div class="flex justify-between items-center mb-8">
+                    <img src="https://p26-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/3e7eef4d30cf45c296f6a69482626264~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=202603152345227E90D6D6A835EBB6EE45&rrcfp=f06b921b&x-expires=1776181564&x-signature=SippHUKzuXmiHiaFC%2BH7TTC4P%2F4%3D" alt="悟空健康管理" class="h-10">
+                    <button id="close-menu" class="text-gray-700 focus:outline-none">
+                        <i class="fas fa-times text-2xl"></i>
+                    </button>
+                </div>
+                <div class="flex flex-col space-y-4">
+                    <a href="#home" class="mobile-nav-link text-gray-700 hover:text-blue-500 py-2 border-b border-gray-200">首页</a>
+                    <a href="#about" class="mobile-nav-link text-gray-700 hover:text-blue-500 py-2 border-b border-gray-200">关于我们</a>
+                    <a href="#services" class="mobile-nav-link text-gray-700 hover:text-blue-500 py-2 border-b border-gray-200">服务项目</a>
+                    <a href="#team" class="mobile-nav-link text-gray-700 hover:text-blue-500 py-2 border-b border-gray-200">专家团队</a>
+                    <a href="#cases" class="mobile-nav-link text-gray-700 hover:text-blue-500 py-2 border-b border-gray-200">客户案例</a>
+                    <a href="#ai-tool" class="mobile-nav-link text-gray-700 hover:text-blue-500 py-2 border-b border-gray-200">AI健康评估</a>
+                    <a href="#contact" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-full transition duration-300 text-center mt-4">联系我们</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 遮罩层 -->
+    <div id="overlay" class="fixed inset-0 bg-black opacity-50 z-40 hidden md:hidden"></div>
+
+    <!-- 首页英雄区 -->
+    <section id="home" class="relative h-screen flex items-center overflow-hidden">
+        <canvas id="hero-canvas"></canvas>
+        <div class="container mx-auto px-4 z-10">
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div class="text-center md:text-left">
+                    <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+                        <span class="text-gradient">智能健康管理</span><br>
+                        守护您的健康未来
+                    </h1>
+                    <p class="text-lg md:text-xl text-gray-700 mb-8">
+                        悟空健康管理有限公司致力于提供专业的健康管理服务，
+                        通过AI技术和专业团队，为您定制个性化健康管理方案。
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                        <a href="#services" class="bg-blue-500 hover:bg-blue-600 text-white px-8 py-3 rounded-full transition duration-300 font-medium">
+                            了解服务
+                        </a>
+                        <a href="#ai-tool" class="border-2 border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white px-8 py-3 rounded-full transition duration-300 font-medium">
+                            AI健康评估
+                        </a>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <img src="https://p11-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/3bd7da9a716c410791b430f37e0fc858~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=202603152345227E90D6D6A835EBB6EE45&rrcfp=f06b921b&x-expires=1776181572&x-signature=jb5ffbmHdz93os4ZbFBzqAE8On0%3D" alt="健康管理流程" class="w-full max-w-lg mx-auto animate-float">
+                </div>
+            </div>
+        </div>
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <a href="#about" class="text-blue-500">
+                <i class="fas fa-chevron-down text-2xl"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- 关于我们 -->
+    <section id="about" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">关于悟空健康管理</h2>
+                <p class="text-gray-600 max-w-3xl mx-auto">我们是一家专注于提供全方位健康管理服务的企业，致力于通过科学的方法和先进的技术，帮助客户实现健康生活。</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="reveal">
+                    <img src="https://p26-doubao-search-sign.byteimg.com/labis/4e489ba90760bc685dc2959a22d1ca7f~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&x-expires=1789141533&x-signature=8KyW0U0spl62PFt14lSVHnet5KY%3D" alt="悟空健康管理团队" class="rounded-lg shadow-xl w-full">
+                </div>
+                <div class="reveal">
+                    <h3 class="text-2xl font-bold mb-4 text-blue-500">我们的使命</h3>
+                    <p class="text-gray-700 mb-6">
+                        悟空健康管理有限公司成立于2020年，是一家集健康监测、健康评估、健康干预和健康指导于一体的专业健康管理机构。我们拥有一支由医学专家、健康管理师、营养师和心理咨询师组成的专业团队，为客户提供全方位的健康管理服务。
+                    </p>
+                    
+                    <h3 class="text-2xl font-bold mb-4 text-blue-500">我们的优势</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="bg-blue-100 p-2 rounded-full mr-4">
+                                <i class="fas fa-user-md text-blue-500"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-800">专业团队</h4>
+                                <p class="text-gray-600">由医学专家、健康管理师、营养师和心理咨询师组成的专业团队</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-blue-100 p-2 rounded-full mr-4">
+                                <i class="fas fa-robot text-blue-500"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-800">AI技术</h4>
+                                <p class="text-gray-600">结合人工智能技术，提供个性化的健康管理方案</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-blue-100 p-2 rounded-full mr-4">
+                                <i class="fas fa-heartbeat text-blue-500"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-800">全方位服务</h4>
+                                <p class="text-gray-600">从健康监测到健康指导，提供全周期的健康管理服务</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div class="reveal">
+                    <div class="text-4xl font-bold text-blue-500 mb-2">50+</div>
+                    <p class="text-gray-600">专业团队成员</p>
+                </div>
+                <div class="reveal">
+                    <div class="text-4xl font-bold text-blue-500 mb-2">5000+</div>
+                    <p class="text-gray-600">服务客户</p>
+                </div>
+                <div class="reveal">
+                    <div class="text-4xl font-bold text-blue-500 mb-2">98%</div>
+                    <p class="text-gray-600">客户满意度</p>
+                </div>
+                <div class="reveal">
+                    <div class="text-4xl font-bold text-blue-500 mb-2">10+</div>
+                    <p class="text-gray-600">合作医疗机构</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 服务项目 -->
+    <section id="services" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">我们的服务项目</h2>
+                <p class="text-gray-600 max-w-3xl mx-auto">悟空健康管理提供全方位的健康管理服务，从健康监测到健康指导，为您的健康保驾护航。</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 服务项目1 -->
+                <div class="bg-white rounded-xl shadow-lg p-8 service-card reveal">
+                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-stethoscope text-blue-500 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">健康监测</h3>
+                    <p class="text-gray-600 mb-6">
+                        通过先进的健康监测设备和技术，对客户的健康状况进行全面监测，包括身体指标、生理功能和生活习惯等方面。
+                    </p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>身体指标监测</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>生理功能评估</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>生活习惯分析</span>
+                        </li>
+                    </ul>
+                    <a href="#contact" class="text-blue-500 font-medium hover:underline flex items-center">
+                        了解更多 <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+                
+                <!-- 服务项目2 -->
+                <div class="bg-white rounded-xl shadow-lg p-8 service-card reveal">
+                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-chart-line text-blue-500 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">健康评估</h3>
+                    <p class="text-gray-600 mb-6">
+                        基于监测数据和专业知识，对客户的健康状况进行全面评估，识别健康风险因素，制定个性化的健康管理目标。
+                    </p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>健康风险评估</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>疾病风险预测</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>健康状况分析</span>
+                        </li>
+                    </ul>
+                    <a href="#contact" class="text-blue-500 font-medium hover:underline flex items-center">
+                        了解更多 <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+                
+                <!-- 服务项目3 -->
+                <div class="bg-white rounded-xl shadow-lg p-8 service-card reveal">
+                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-heartbeat text-blue-500 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">健康干预</h3>
+                    <p class="text-gray-600 mb-6">
+                        根据健康评估结果，制定个性化的健康干预方案，包括饮食调整、运动计划、生活方式改变和必要的医疗干预等。
+                    </p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>个性化干预方案</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>饮食运动指导</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>生活方式调整</span>
+                        </li>
+                    </ul>
+                    <a href="#contact" class="text-blue-500 font-medium hover:underline flex items-center">
+                        了解更多 <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+                
+                <!-- 服务项目4 -->
+                <div class="bg-white rounded-xl shadow-lg p-8 service-card reveal">
+                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-user-md text-blue-500 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">健康指导</h3>
+                    <p class="text-gray-600 mb-6">
+                        由专业的健康管理师提供一对一的健康指导服务，帮助客户理解健康知识，掌握健康管理技能，实现健康目标。
+                    </p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>一对一健康指导</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>健康知识教育</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>健康技能培训</span>
+                        </li>
+                    </ul>
+                    <a href="#contact" class="text-blue-500 font-medium hover:underline flex items-center">
+                        了解更多 <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+                
+                <!-- 服务项目5 -->
+                <div class="bg-white rounded-xl shadow-lg p-8 service-card reveal">
+                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-brain text-blue-500 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">心理健康管理</h3>
+                    <p class="text-gray-600 mb-6">
+                        关注客户的心理健康状况，提供心理评估、心理咨询和心理调适服务，帮助客户保持良好的心理状态。
+                    </p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>心理评估</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>心理咨询</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>压力管理</span>
+                        </li>
+                    </ul>
+                    <a href="#contact" class="text-blue-500 font-medium hover:underline flex items-center">
+                        了解更多 <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+                
+                <!-- 服务项目6 -->
+                <div class="bg-white rounded-xl shadow-lg p-8 service-card reveal">
+                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-robot text-blue-500 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">AI健康管理</h3>
+                    <p class="text-gray-600 mb-6">
+                        结合人工智能技术，提供智能化的健康管理服务，包括健康数据分析、个性化健康建议和健康风险预警等。
+                    </p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>AI健康评估</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>智能健康建议</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>健康风险预警</span>
+                        </li>
+                    </ul>
+                    <a href="#ai-tool" class="text-blue-500 font-medium hover:underline flex items-center">
+                        立即体验 <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 专家团队 -->
+    <section id="team" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">我们的专家团队</h2>
+                <p class="text-gray-600 max-w-3xl mx-auto">悟空健康管理拥有一支由医学专家、健康管理师、营养师和心理咨询师组成的专业团队。</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- 团队成员1 -->
+                <div class="team-member rounded-xl overflow-hidden shadow-lg reveal">
+                    <div class="relative">
+                        <img src="https://p11-doubao-search-sign.byteimg.com/labis/41359745594c4ae325cb6d25eb701215~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&x-expires=1789141533&x-signature=nIlK000EzUt9%2FUgHkqDSgG4KfhE%3D" alt="张教授" class="w-full h-64 object-cover">
+                        <div class="team-overlay absolute inset-0 flex flex-col justify-end p-6">
+                            <h4 class="text-white font-bold text-lg">张教授</h4>
+                            <p class="text-white opacity-90">首席医学顾问</p>
+                            <div class="flex mt-3 space-x-3">
+                                <a href="#" class="text-white hover:text-blue-300">
+                                    <i class="fab fa-linkedin"></i>
+                                </a>
+                                <a href="#" class="text-white hover:text-blue-300">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="#" class="text-white hover:text-blue-300">
+                                    <i class="fas fa-envelope"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6 bg-white">
+                        <h4 class="font-bold text-gray-800 mb-1">张教授</h4>
+                        <p class="text-gray-600 mb-3">首席医学顾问</p>
+                        <p class="text-gray-600 text-sm">
+                            北京医科大学教授，博士生导师，拥有30年临床经验，专注于慢性病预防和健康管理研究。
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- 团队成员2 -->
+                <div class="team-member rounded-xl overflow-hidden shadow-lg reveal">
+                    <div class="relative">
+                        <img src="https://p26-doubao-search-sign.byteimg.com/labis/ec903ebac7c367590ef8e92817280669~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&x-expires=1789141533&x-signature=tvaWeEChGROSY%2BeT1fvUSu8p79o%3D" alt="李医生" class="w-full h-64 object-cover">
+                        <div class="team-overlay absolute inset-0 flex flex-col justify-end p-6">
+                            <h4 class="text-white font-bold text-lg">李医生</h4>
+                            <p class="text-white opacity-90">健康管理总监</p>
+                            <div class="flex mt-3 space-x-3">
+                                <a href="#" class="text-white hover:text-blue-300">
+                                    <i class="fab fa-linkedin"></i>
+                                </a>
+                                <a href="#" class="text-white hover:text-blue-300">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="#" class="text-white hover:text-blue-300">
+                                    <i class="fas fa-envelope"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6 bg-white">
+                        <h4 class="font-bold text-gray-800 mb-1">李医生</h4>
+                        <p class="text-gray-600 mb-3">健康管理总监</p>
+                        <p class="text-gray-600 text-sm">
+                            国家一级健康管理师，营养学博士，擅长个性化健康管理方案制定和慢性病健康干预。
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- 团队成员3 -->
+                <div class="team-member rounded-xl overflow-hidden shadow-lg reveal">
+                    <div class="relative">
+                        <img src="https://p3-doubao-search-sign.byteimg.com/labis/d233ef198b0c483bd1ab384265948e21~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&x-expires=1789141533&x-signature=a4PK7Eq76PQ3kIESENNOQBANvEg%3D" alt="王博士" class="w-full h-64 object-cover">
+                        <div class="team-overlay absolute inset-0 flex flex-col justify-end p-6">
+                            <h4 class="text-white font-bold text-lg">王博士</h4>
+                            <p class="text-white opacity-90">AI研发总监</p>
+                            <div class="flex mt-3 space-x-3">
+                                <a href="#" class="text-white hover:text-blue-300">
+                                    <i class="fab fa-linkedin"></i>
+                                </a>
+                                <a href="#" class="text-white hover:text-blue-300">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="#" class="text-white hover:text-blue-300">
+                                    <i class="fas fa-envelope"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6 bg-white">
+                        <h4 class="font-bold text-gray-800 mb-1">王博士</h4>
+                        <p class="text-gray-600 mb-3">AI研发总监</p>
+                        <p class="text-gray-600 text-sm">
+                            人工智能和医疗健康交叉领域专家，负责悟空健康AI健康管理系统的研发和优化。
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- 团队成员4 -->
+                <div class="team-member rounded-xl overflow-hidden shadow-lg reveal">
+                    <div class="relative">
+                        <img src="https://p3-doubao-search-sign.byteimg.com/labis/4e489ba90760bc685dc2959a22d1ca7f~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&x-expires=1789141533&x-signature=8KyW0U0spl62PFt14lSVHnet5KY%3D" alt="赵老师" class="w-full h-64 object-cover">
+                        <div class="team-overlay absolute inset-0 flex flex-col justify-end p-6">
+                            <h4 class="text-white font-bold text-lg">赵老师</h4>
+                            <p class="text-white opacity-90">心理咨询师</p>
+                            <div class="flex mt-3 space-x-3">
+                                <a href="#" class="text-white hover:text-blue-300">
+                                    <i class="fab fa-linkedin"></i>
+                                </a>
+                                <a href="#" class="text-white hover:text-blue-300">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="#" class="text-white hover:text-blue-300">
+                                    <i class="fas fa-envelope"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6 bg-white">
+                        <h4 class="font-bold text-gray-800 mb-1">赵老师</h4>
+                        <p class="text-gray-600 mb-3">心理咨询师</p>
+                        <p class="text-gray-600 text-sm">
+                            国家二级心理咨询师，擅长压力管理、情绪调节和心理健康维护，为客户提供专业的心理支持。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 客户案例 -->
+    <section id="cases" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">客户案例与成功故事</h2>
+                <p class="text-gray-600 max-w-3xl mx-auto">看看我们如何帮助客户改善健康状况，实现健康目标。</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 案例1 -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden testimonial-card reveal">
+                    <div class="p-8">
+                        <div class="flex items-center mb-6">
+                            <div class="text-yellow-400 flex">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-6 italic">
+                            "通过悟空健康管理的服务，我成功减重15公斤，血压和血糖都恢复了正常。健康管理师的专业指导和AI健康管理系统的智能建议让我的健康管理变得简单而有效。"
+                        </p>
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                                <span class="text-blue-500 font-bold">张</span>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-800">张先生</h4>
+                                <p class="text-gray-600 text-sm">企业高管，45岁</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 案例2 -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden testimonial-card reveal">
+                    <div class="p-8">
+                        <div class="flex items-center mb-6">
+                            <div class="text-yellow-400 flex">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-6 italic">
+                            "作为一名糖尿病患者，我一直担心自己的健康状况。悟空健康管理为我制定了个性化的健康管理方案，通过饮食调整和运动计划，我的血糖控制得非常好，生活质量大大提高。"
+                        </p>
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                                <span class="text-blue-500 font-bold">李</span>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-800">李女士</h4>
+                                <p class="text-gray-600 text-sm">退休教师，62岁</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 案例3 -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden testimonial-card reveal">
+                    <div class="p-8">
+                        <div class="flex items-center mb-6">
+                            <div class="text-yellow-400 flex">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-6 italic">
+                            "我们公司与悟空健康管理合作，为员工提供健康管理服务。员工的健康状况和工作效率都有了显著提升，团队凝聚力也增强了。这是一项非常值得的投资。"
+                        </p>
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                                <span class="text-blue-500 font-bold">王</span>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-800">王总</h4>
+                                <p class="text-gray-600 text-sm">科技公司CEO</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-16 text-center">
+                <a href="#contact" class="bg-blue-500 hover:bg-blue-600 text-white px-8 py-3 rounded-full transition duration-300 font-medium inline-block">
+                    了解更多案例
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI健康风险评估工具 -->
+    <section id="ai-tool" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">AI健康风险评估工具</h2>
+                <p class="text-gray-600 max-w-3xl mx-auto">输入您的基本健康数据，获取个性化的健康风险评估和建议。</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="reveal">
+                    <img src="https://p26-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/7333bf153c9947a480b4e31efa94afd7~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=202603152345227E90D6D6A835EBB6EE45&rrcfp=f06b921b&x-expires=1776181572&x-signature=Wna88nZ4pOcrimM24uhZwH%2Fy8m0%3D" alt="AI健康风险评估工具" class="w-full rounded-lg shadow-xl">
+                </div>
+                
+                <div class="ai-tool-bg p-8 reveal">
+                    <h3 class="text-2xl font-bold mb-6 text-white">健康风险评估</h3>
+                    
+                    <form id="health-assessment-form" class="space-y-6">
+                        <div>
+                            <label class="block text-white mb-2">年龄</label>
+                            <input type="number" id="age" class="ai-input w-full" placeholder="请输入您的年龄" min="1" max="120" required>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-white mb-2">性别</label>
+                            <select id="gender" class="ai-input w-full" required>
+                                <option value="">请选择</option>
+                                <option value="male">男</option>
+                                <option value="female">女</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-white mb-2">身高 (cm)</label>
+                            <input type="number" id="height" class="ai-input w-full" placeholder="请输入您的身高" min="100" max="220" required>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-white mb-2">体重 (kg)</label>
+                            <input type="number" id="weight" class="ai-input w-full" placeholder="请输入您的体重" min="30" max="200" required>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-white mb-2">家族病史</label>
+                            <select id="family-history" class="ai-input w-full" required>
+                                <option value="">请选择</option>
+                                <option value="none">无</option>
+                                <option value="heart">心脏病</option>
+                                <option value="diabetes">糖尿病</option>
+                                <option value="hypertension">高血压</option>
+                                <option value="cancer">癌症</option>
+                                <option value="other">其他</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-white mb-2">生活习惯</label>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="smoking" class="mr-2">
+                                    <label for="smoking" class="text-white">吸烟</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="drinking" class="mr-2">
+                                    <label for="drinking" class="text-white">饮酒</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="exercise" class="mr-2">
+                                    <label for="exercise" class="text-white">规律运动</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="healthy-diet" class="mr-2">
+                                    <label for="healthy-diet" class="text-white">健康饮食</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="ai-button w-full">
+                            开始评估
+                        </button>
+                    </form>
+                    
+                    <!-- 评估结果 (默认隐藏) -->
+                    <div id="assessment-result" class="mt-8 hidden">
+                        <h4 class="text-xl font-bold mb-4 text-white">评估结果</h4>
+                        
+                        <div class="result-card mb-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="text-white">健康风险等级</span>
+                                <span id="risk-level" class="font-bold risk-medium">中等风险</span>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <div class="flex justify-between text-white text-sm mb-1">
+                                    <span>风险指数</span>
+                                    <span id="risk-score">65/100</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div id="risk-progress" class="progress-fill bg-yellow-400" style="width: 65%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="space-y-3">
+                                <div class="flex items-start">
+                                    <i class="fas fa-exclamation-circle text-yellow-400 mt-1 mr-2"></i>
+                                    <p class="text-white text-sm">您的BMI指数偏高，存在超重风险</p>
+                                </div>
+                                <div class="flex items-start">
+                                    <i class="fas fa-check-circle text-green-400 mt-1 mr-2"></i>
+                                    <p class="text-white text-sm">血压和血糖水平正常</p>
+                                </div>
+                                <div class="flex items-start">
+                                    <i class="fas fa-exclamation-circle text-yellow-400 mt-1 mr-2"></i>
+                                    <p class="text-white text-sm">缺乏规律运动，建议增加体育锻炼</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="result-card">
+                            <h5 class="text-white font-bold mb-3">健康建议</h5>
+                            <ul class="space-y-3 text-white text-sm">
+                                <li class="flex items-start">
+                                    <i class="fas fa-arrow-right text-blue-300 mt-1 mr-2"></i>
+                                    <span>建议增加每日运动时间，每周至少进行150分钟中等强度有氧运动</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-arrow-right text-blue-300 mt-1 mr-2"></i>
+                                    <span>调整饮食结构，减少高热量、高脂肪食物摄入，增加蔬菜水果比例</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-arrow-right text-blue-300 mt-1 mr-2"></i>
+                                    <span>保持良好的作息习惯，确保充足的睡眠时间</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-arrow-right text-blue-300 mt-1 mr-2"></i>
+                                    <span>建议每半年进行一次全面体检，监测健康状况变化</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="mt-6 text-center">
+                            <a href="#contact" class="bg-white text-blue-500 hover:bg-blue-50 px-6 py-2 rounded-full transition duration-300 font-medium inline-block">
+                                获取详细健康管理方案
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系我们 -->
+    <section id="contact" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">联系我们</h2>
+                <p class="text-gray-600 max-w-3xl mx-auto">如果您对我们的服务感兴趣，或者有任何疑问，请随时联系我们。</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12">
+                <div class="reveal">
+                    <form class="bg-white rounded-xl shadow-lg p-8">
+                        <div class="grid md:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label class="block text-gray-700 mb-2">姓名</label>
+                                <input type="text" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="请输入您的姓名" required>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-2">电话</label>
+                                <input type="tel" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="请输入您的电话" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-gray-700 mb-2">邮箱</label>
+                            <input type="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="请输入您的邮箱" required>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-gray-700 mb-2">服务类型</label>
+                            <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                <option value="">请选择</option>
+                                <option value="health-monitoring">健康监测</option>
+                                <option value="health-assessment">健康评估</option>
+                                <option value="health-intervention">健康干预</option>
+                                <option value="health-guidance">健康指导</option>
+                                <option value="mental-health">心理健康管理</option>
+                                <option value="ai-health">AI健康管理</option>
+                                <option value="other">其他</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-gray-700 mb-2">留言</label>
+                            <textarea class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 h-32" placeholder="请输入您的留言内容" required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg transition duration-300 font-medium">
+                            提交
+                        </button>
+                    </form>
+                </div>
+                
+                <div class="reveal">
+                    <div class="bg-white rounded-xl shadow-lg p-8 h-full">
+                        <h3 class="text-2xl font-bold mb-6">联系方式</h3>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-start">
+                                <div class="bg-blue-100 p-3 rounded-full mr-4">
+                                    <i class="fas fa-map-marker-alt text-blue-500"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800">地址</h4>
+                                    <p class="text-gray-600">北京市朝阳区建国路88号悟空健康管理中心</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="bg-blue-100 p-3 rounded-full mr-4">
+                                    <i class="fas fa-phone-alt text-blue-500"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800">电话</h4>
+                                    <p class="text-gray-600">400-123-4567</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="bg-blue-100 p-3 rounded-full mr-4">
+                                    <i class="fas fa-envelope text-blue-500"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800">邮箱</h4>
+                                    <p class="text-gray-600">contact@wukonghealth.com</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="bg-blue-100 p-3 rounded-full mr-4">
+                                    <i class="fas fa-clock text-blue-500"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800">营业时间</h4>
+                                    <p class="text-gray-600">周一至周五: 9:00 - 18:00</p>
+                                    <p class="text-gray-600">周六: 9:00 - 16:00</p>
+                                    <p class="text-gray-600">周日: 休息</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8">
+                            <h4 class="font-bold text-gray-800 mb-4">关注我们</h4>
+                            <div class="flex space-x-4">
+                                <a href="#" class="bg-blue-100 w-10 h-10 rounded-full flex items-center justify-center text-blue-500 hover:bg-blue-500 hover:text-white transition duration-300">
+                                    <i class="fab fa-weixin"></i>
+                                </a>
+                                <a href="#" class="bg-blue-100 w-10 h-10 rounded-full flex items-center justify-center text-blue-500 hover:bg-blue-500 hover:text-white transition duration-300">
+                                    <i class="fab fa-weibo"></i>
+                                </a>
+                                <a href="#" class="bg-blue-100 w-10 h-10 rounded-full flex items-center justify-center text-blue-500 hover:bg-blue-500 hover:text-white transition duration-300">
+                                    <i class="fab fa-linkedin"></i>
+                                </a>
+                                <a href="#" class="bg-blue-100 w-10 h-10 rounded-full flex items-center justify-center text-blue-500 hover:bg-blue-500 hover:text-white transition duration-300">
+                                    <i class="fab fa-tiktok"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-6">
+                        <img src="https://p26-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/3e7eef4d30cf45c296f6a69482626264~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=202603152345227E90D6D6A835EBB6EE45&rrcfp=f06b921b&x-expires=1776181564&x-signature=SippHUKzuXmiHiaFC%2BH7TTC4P%2F4%3D" alt="悟空健康管理" class="h-10 mr-3">
+                        <span class="text-xl font-bold">悟空健康管理</span>
+                    </div>
+                    <p class="text-gray-400 mb-6">
+                        悟空健康管理有限公司致力于提供专业的健康管理服务，通过AI技术和专业团队，为您定制个性化健康管理方案。
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-weixin"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-weibo"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-6">服务项目</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#services" class="text-gray-400 hover:text-white">健康监测</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-white">健康评估</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-white">健康干预</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-white">健康指导</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-white">心理健康管理</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-white">AI健康管理</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-6">关于我们</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#about" class="text-gray-400 hover:text-white">公司简介</a></li>
+                        <li><a href="#team" class="text-gray-400 hover:text-white">专家团队</a></li>
+                        <li><a href="#cases" class="text-gray-400 hover:text-white">客户案例</a></li>
+                        <li href="#" class="text-gray-400 hover:text-white">合作伙伴</li>
+                        <li href="#" class="text-gray-400 hover:text-white">新闻动态</li>
+                        <li href="#" class="text-gray-400 hover:text-white">加入我们</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-6">联系方式</h4>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 mr-3 text-gray-400"></i>
+                            <span class="text-gray-400">北京市朝阳区建国路88号悟空健康管理中心</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-phone-alt mt-1 mr-3 text-gray-400"></i>
+                            <span class="text-gray-400">400-123-4567</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-envelope mt-1 mr-3 text-gray-400"></i>
+                            <span class="text-gray-400">contact@wukonghealth.com</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-clock mt-1 mr-3 text-gray-400"></i>
+                            <span class="text-gray-400">周一至周五: 9:00 - 18:00<br>周六: 9:00 - 16:00</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center">
+                <p class="text-gray-400">© 2023 悟空健康管理有限公司 版权所有 | 京ICP备12345678号</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 灵动岛 -->
+    <div class="dynamic-island">
+        <i class="fas fa-heartbeat text-white"></i>
+        <span class="text-white">开启您的健康之旅</span>
+        <a href="#ai-tool" class="bg-white text-blue-500 px-4 py-1 rounded-full text-sm font-medium">立即体验</a>
+    </div>
+
+    <script>
+        // 加载动画
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.querySelector('.loader').classList.add('hidden');
+            }, 1000);
+        });
+        
+        // 导航栏滚动效果
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('py-2');
+                navbar.classList.remove('py-3');
+            } else {
+                navbar.classList.add('py-3');
+                navbar.classList.remove('py-2');
+            }
+        });
+        
+        // 移动端菜单
+        const menuToggle = document.getElementById('menu-toggle');
+        const closeMenu = document.getElementById('close-menu');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const overlay = document.getElementById('overlay');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+        
+        menuToggle.addEventListener('click', function() {
+            mobileMenu.classList.add('active');
+            overlay.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        });
+        
+        function closeMenuHandler() {
+            mobileMenu.classList.remove('active');
+            overlay.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+        
+        closeMenu.addEventListener('click', closeMenuHandler);
+        overlay.addEventListener('click', closeMenuHandler);
+        
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', closeMenuHandler);
+        });
+        
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // 滚动显示动画
+        ScrollReveal().reveal('.reveal', {
+            distance: '50px',
+            duration: 1000,
+            origin: 'bottom',
+            interval: 200
+        });
+        
+        // 导航链接激活状态
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-link');
+        
+        window.addEventListener('scroll', function() {
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                
+                if (window.scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+        
+        // Three.js 背景动画
+        function initThreeJsBackground() {
+            const canvas = document.getElementById('hero-canvas');
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            
+            const renderer = new THREE.WebGLRenderer({
+                canvas: canvas,
+                alpha: true,
+                antialias: true
+            });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            
+            // 创建粒子
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesCount = 1500;
+            
+            const posArray = new Float32Array(particlesCount * 3);
+            
+            for (let i = 0; i < particlesCount * 3; i++) {
+                posArray[i] = (Math.random() - 0.5) * 5;
+            }
+            
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            
+            const particlesMaterial = new THREE.PointsMaterial({
+                size: 0.005,
+                color: 0x00b4d8,
+                transparent: true,
+                opacity: 0.8
+            });
+            
+            const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particlesMesh);
+            
+            camera.position.z = 2;
+            
+            // 动画
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                particlesMesh.rotation.y += 0.001;
+                
+                renderer.render(scene, camera);
+            }
+            
+            animate();
+            
+            // 响应式调整
+            window.addEventListener('resize', function() {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+            
+            // 鼠标移动效果
+            document.addEventListener('mousemove', function(event) {
+                const mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+                const mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+                
+                gsap.to(particlesMesh.rotation, {
+                    x: mouseY * 0.1,
+                    y: mouseX * 0.1,
+                    duration: 2
+                });
+            });
+        }
+        
+        // 初始化Three.js背景
+        if (window.innerWidth > 768) {
+            initThreeJsBackground();
+        }
+        
+        // AI健康评估工具
+        const healthForm = document.getElementById('health-assessment-form');
+        const assessmentResult = document.getElementById('assessment-result');
+        const riskLevel = document.getElementById('risk-level');
+        const riskScore = document.getElementById('risk-score');
+        const riskProgress = document.getElementById('risk-progress');
+        
+        healthForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // 获取表单数据
+            const age = document.getElementById('age').value;
+            const gender = document.getElementById('gender').value;
+            const height = document.getElementById('height').value;
+            const weight = document.getElementById('weight').value;
+            const familyHistory = document.getElementById('family-history').value;
+            const smoking = document.getElementById('smoking').checked;
+            const drinking = document.getElementById('drinking').checked;
+            const exercise = document.getElementById('exercise').checked;
+            const healthyDiet = document.getElementById('healthy-diet').checked;
+            
+            // 计算BMI
+            const heightInMeters = height / 100;
+            const bmi = weight / (heightInMeters * heightInMeters);
+            
+            // 计算健康风险分数
+            let riskScoreValue = 50; // 基础分数
+            
+            // 年龄因素
+            if (age < 30) {
+                riskScoreValue -= 10;
+            } else if (age >= 30 && age < 50) {
+                riskScoreValue += 5;
+            } else {
+                riskScoreValue += 15;
+            }
+            
+            // BMI因素
+            if (bmi < 18.5) {
+                riskScoreValue += 5;
+            } else if (bmi >= 18.5 && bmi < 24) {
+                riskScoreValue -= 10;
+            } else if (bmi >= 24 && bmi < 28) {
+                riskScoreValue += 10;
+            } else {
+                riskScoreValue += 20;
+            }
+            
+            // 家族病史因素
+            if (familyHistory === 'none') {
+                riskScoreValue -= 10;
+            } else if (familyHistory === 'heart' || familyHistory === 'diabetes' || familyHistory === 'hypertension') {
+                riskScoreValue += 15;
+            } else {
+                riskScoreValue += 10;
+            }
+            
+            // 生活习惯因素
+            if (smoking) riskScoreValue += 10;
+            if (drinking) riskScoreValue += 5;
+            if (exercise) riskScoreValue -= 10;
+            if (healthyDiet) riskScoreValue -= 10;
+            
+            // 确保分数在0-100之间
+            riskScoreValue = Math.max(0, Math.min(100, riskScoreValue));
+            
+            // 更新风险等级和分数
+            riskScore.textContent = `${riskScoreValue}/100`;
+            riskProgress.style.width = `${riskScoreValue}%`;
+            
+            if (riskScoreValue < 40) {
+                riskLevel.textContent = '低风险';
+                riskLevel.className = 'font-bold risk-low';
+                riskProgress.className = 'progress-fill bg-green-400';
+            } else if (riskScoreValue >= 40 && riskScoreValue < 70) {
+                riskLevel.textContent = '中等风险';
+                riskLevel.className = 'font-bold risk-medium';
+                riskProgress.className = 'progress-fill bg-yellow-400';
+            } else {
+                riskLevel.textContent = '高风险';
+                riskLevel.className = 'font-bold risk-high';
+                riskProgress.className = 'progress-fill bg-red-400';
+            }
+            
+            // 显示结果
+            healthForm.reset();
+            healthForm.classList.add('hidden');
+            assessmentResult.classList.remove('hidden');
+            
+            // 滚动到结果区域
+            assessmentResult.scrollIntoView({ behavior: 'smooth' });
+        });
+        
+        // 灵动岛效果
+        const dynamicIsland = document.querySelector('.dynamic-island');
+        
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 300) {
+                dynamicIsland.style.opacity = '0';
+            } else {
+                dynamicIsland.style.opacity = '1';
+            }
+        });
+    </script>
+</body>
+</html>
